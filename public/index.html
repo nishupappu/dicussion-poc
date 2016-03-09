@@ -1,54 +1,17 @@
 <html>
-	<head>
-		<title>Discussions POC</title>
-	</head>
-	<body ng-app="disussionapp">
-		<div ng-controller="nkController">
-			<div class="add-discussions">				
-				<input type="text" ng-model="Content"/>
-				<input type="button" value="add" ng-click="addDiscussions(Content);">
-			</div>
-			<h1>{{heading}}</h1>
-			<div class="question-summary">
-				<div class="question-item" ng-repeat="qnItem in Qns">
-	    			<div class="cp" style="float:left;vertical-align:top;margin-right:10px;">
-				        <div class="votes" style="display: inline-block;height: 38px;min-width: 38px;margin: 0 3px 0 0;
-	    					font-size: 11px;
-	    					color: #777;
-	    					padding: 5px 5px 6px 5px;">
-				            <div class="mini-counts"><span title="0 votes">0</span></div>
-				            <div>votes</div>
-				        </div>
-				        <div class="status unanswered" style="display: inline-block;
-					    margin: 0 3px 0 0;
-					    min-width: 44px;
-					    height: auto;
-					    font-size: 11px;
-					    padding: 6px;">
-				            <div class="mini-counts"><span title="0 answers">0</span></div>
-				            <div>answers</div>
-				        </div>
-				        <div class="views" style="display: inline-block;
-					    height: 38px;
-					    min-width: 40px;
-					    margin: 0 7px 0 0;
-					    font-size: 11px;
-					    color: #777;
-					    padding: 5px 5px 6px 5px;">
-				        <div class="mini-counts"><span title="6 views">6</span></div>
-				        <div>views</div>
-				        </div>
-				    </div>
-		    		<div class="summary">	        
-		                <h3><a href="www.humana.com" class="question-hyperlink">{{qnItem.Content}}</a></h3>			       
-					</div>
-					<a href="" ng-click="deleteDiscussion(qnItem)">Delete</a>
-				</div>
-			</div>
-		</div>
-		<script src="js/vendor/jquery.js"></script>	
-		<script src="js/vendor/lodash.js"></script>
-		<script src="js/vendor/angular.min.js"></script>
-		<script type="text/javascript" src="js/app.js"></script>			
-	</body>
+<head>
+    <title>Discussions POC</title>
+</head>
+<body ng-app="discussionapp" class="all-discussions">
+    <div ng-view>
+
+    </div>
+    <script src="js/vendor/jquery.js"></script>
+    <script src="js/vendor/lodash.js"></script>
+    <script src="js/vendor/angular.min.js"></script>
+    <script src="js/vendor/angular-route.min.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+    <script type="text/javascript" src="js/app.config.js"></script>
+    <link rel="stylesheet" type="text/css" href="styles/home.css">
+</body>
 </html>

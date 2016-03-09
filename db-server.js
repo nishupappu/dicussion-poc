@@ -9,6 +9,7 @@ dbServer.ModelHash["discussions"] = function (obj, isNew, isUpdate) {
     this.Category = obj["Category"];
 
     this.Content = obj["Content"];
+    this.Views=obj["Views"];  
 
     if(isNew){
         this.CreatedTime = new Date().getTime();

@@ -1,0 +1,32 @@
+<div class="module-discussion">
+<h1>{{mainheading}}</h1>
+    <div class="add-discussions">
+        <textarea name="message" rows="10" cols="30" ng-model="Content"></textarea>
+        <!-- <input type="text" ng-model="Content"/> -->
+        <input type="button" value="add question" ng-click="addDiscussions(Content);">
+    </div>
+    <h1>{{heading}}</h1>
+    <div class="question-summary">
+        <div class="question-item" ng-repeat="qnItem in Qns">
+            <div class="cp" >
+                <div class="votes">
+                    <div class="mini-counts"><span title="0 votes">{{qnItem.likesCount?qnItem.likesCount:"0"}}</span></div>
+                    <div>votes</div>
+                </div>
+                <div class="status-unanswered">
+                    <div class="mini-counts"><span title="0 answers">{{qnItem.answersCount?qnItem.answersCount:"0"}}</span></div>
+                    <div>answers</div>
+                </div>
+                <div class="views" >
+                    <div class="mini-counts"><span title="6 views">{{qnItem.Views?qnItem.Views:"0"}}</span></div>
+                    <div>views</div>
+                </div>
+            </div>
+            <div class="summary">
+                <h3><a href="#/questions/{{qnItem.Id}}" class="question-hyperlink">{{qnItem.Content}}</a></h3>
+            </div>
+            <a href="" ng-click="deleteDiscussion(qnItem)">Delete</a>
+            
+        </div>
+    </div>
+</div>

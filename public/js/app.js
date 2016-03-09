@@ -1,5 +1,6 @@
-var app = angular.module('disussionapp', []);
+var app = angular.module('discussionapp', ['ngRoute']);
 app.controller('nkController', function ($scope, nkService) {
+    $scope.mainheading="Ask Questions";
     $scope.heading = "View all questions";
     $scope.addDiscussions = function (dcontent) {
         console.log(dcontent);
@@ -21,16 +22,50 @@ app.controller('nkController', function ($scope, nkService) {
     var success = function (resp) {
         console.log(resp.data.Body.list);
         $scope.Qns = resp.data.Body.list;
+        $scope.Qns.map(function(qn){ 
+            qn.answersCount = _.filter($scope.Qns, {"ParentId": qn.Id }).length;
+        });
     };
     var error = function () {
     };
     x.then(success, error);
 });
+
+app.controller('qnDetailController', function ($scope,$routeParams,nkService) {
+    console.log('params:',$routeParams.qnId)
+    var x = nkService.getDiscussions();
+    var success = function (resp) {
+        console.log(resp.data.Body.list);
+       var qns = resp.data.Body.list;
+        var selectedqn= _.filter(qns, function (f) {
+            return f.Id==$routeParams.qnId;
+        });
+        $scope.questionContent=selectedqn[0].Content;
+        if(selectedqn[0]){
+            console.log(selectedqn[0].Views)
+            selectedqn[0].Views=selectedqn[0].Views?parseInt(selectedqn[0].Views)+1:1;
+            nkService.updateDiscussion(selectedqn[0]);
+        }
+        $scope.answers = _.filter(qns, function ( f ) {
+            return f.ParentId==$routeParams.qnId;
+        });
+    };
+    var error = function () {
+    };
+    x.then(success, error);
+    $scope.addAnswer=function(dcomment){
+        var discobj = {
+            Content: dcomment,
+            ParentId:$routeParams.qnId
+        };
+        console.log(discobj.Content);
+        nkService.addDiscussion(discobj);
+    };
+});
 app.service('nkService', function ($http) {
     var makeRequest = function (url, method, data) {
         var promise = $http({url: url, method: method, data: data});
         return promise;
-
     };
     this.getDiscussions = function () {
         return makeRequest('http://localhost:5654/table/discussions', 'GET', {});
@@ -44,5 +79,5 @@ app.service('nkService', function ($http) {
     };
     this.updateDiscussion = function (discussionData) {
         return makeRequest('http://localhost:5654/table/discussions', 'POST', discussionData);
-    }
+    };
 });
