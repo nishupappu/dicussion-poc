@@ -59,8 +59,21 @@ app.controller('qnDetailController', function ($scope,$routeParams,nkService) {
             ParentId:$routeParams.qnId
         };
         console.log(discobj.Content);
-        nkService.addDiscussion(discobj);
+        nkService.addDiscussion(discobj).then(function(){
+            $scope.comment="";
+            nkService.getDiscussions().then(function(resp){
+                 var qns = resp.data.Body.list;
+                 $scope.answers = _.filter(qns, function ( f ) {
+                    return f.ParentId==$routeParams.qnId;
+                });
+            });
+
+        });
     };
+});
+
+app.controller('loginController',function($scope,nkService){
+
 });
 app.service('nkService', function ($http) {
     var makeRequest = function (url, method, data) {
@@ -80,4 +93,7 @@ app.service('nkService', function ($http) {
     this.updateDiscussion = function (discussionData) {
         return makeRequest('http://localhost:5654/table/discussions', 'POST', discussionData);
     };
+    this.addUser=function(userobj){
+        return makeRequest()
+    }
 });

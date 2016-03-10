@@ -26,4 +26,9 @@ dbServer.ModelHash["discussions"] = function (obj, isNew, isUpdate) {
     this.ParentId = obj["ParentId"];
 };
 
+dbServer.ModelHash["users"]=function(obj,inNew,isUpdate){
+    this.Id = obj["Id"] || dbServer.guid();
+    this.Username=obj
+};
+
 dbServer.init();
