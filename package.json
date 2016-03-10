@@ -1,0 +1,27 @@
+{
+  "name": "discussion-poc",
+  "version": "1.0.1",
+  "description": "discussion widget",
+  "main": "db-server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nishupappu/discussion-poc.git"
+  },
+  "dependencies":{
+    "cookie": "^0.2.3",
+    "formidable": "^1.0.17",
+    "lodash": "^4.5.1",
+    "lrucache": "^1.0.0",
+    "nb-json-db": "^0.1.0",
+    "node-static": "^0.7.7"
+  },
+  "author": "Nisha Kollu <nisha",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nishupappu/discussion-poc/issues"
+  },
+  "homepage": "https://github.com/nishupappu/discussion-poc#readme"
+}

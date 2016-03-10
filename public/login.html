@@ -1,5 +1,13 @@
 <div>
-	<input type="text" placeholder="User name"/>
-	<input type="password" placeholder="password"/>
-	<input type="button" value="submit" ng-click=""/>
+	<input type="text" ng-model="User.Username" placeholder="User name"/>
+	<input type="password" ng-model="User.Password" placeholder="password"/>
+
+    <!--Displays only when user clicks on register-->
+	<input ng-if="IsLogin == false" type="password" ng-model="User.CPassword" placeholder="Confirm password"/>
+	<input ng-if="IsLogin == false" type="button" value=" Submit " ng-click="addUser()"/>
+
+
+
+    <input ng-if="IsLogin == true" type="button" value=" Login " ng-click="authenticateUser()"/>
+    <a  ng-if="IsLogin == true" href="" ng-click="showRegisterForm()" >Register</a>
 </div>

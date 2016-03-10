@@ -7,6 +7,10 @@
     </div>
     <div>
         <div>
+            <a ng-if="IsLiked == false" href="" ng-click="likeThisQuestion(true)">Like</a>
+            <a ng-if="IsLiked == true" href="" ng-click="likeThisQuestion(false)">Un Like</a>
+        </div>
+        <div>
             {{questionContent}}
         </div>
         <div>
