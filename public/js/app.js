@@ -1,5 +1,41 @@
 var app = angular.module('discussionapp', ['ngRoute']);
-app.controller('nkController', function ($scope, nkService) {
+app.controller('nkController', function ($scope, nkService, $rootScope, $location) {
+    function getCookieVal(cName) {
+        var cVal = null;
+        if(document.cookie.indexOf(';') >= 0) {
+            document.cookie.split(';').forEach(function (h) {
+                if(h.indexOf('=') > 0) {
+                    var cookieName = h.split('=')[0];
+                    var cookieVal = h.split('=')[1];
+                    if (cookieName == cName) {
+                        cVal = cookieVal;
+                        return cookieVal;
+                    }
+                }
+            });
+        }
+        return cVal;
+    }
+
+    var loggedInUserID = getCookieVal('user-Id');
+
+    $rootScope.safeApply = function (fn) {
+        var phase = this.$root.$$phase;
+        if (phase == '$apply' || phase == '$digest') {
+            if (fn && (typeof(fn) === 'function')) {
+                fn();
+            }
+        } else {
+            this.$apply(fn);
+        }
+    };
+
+    if(!loggedInUserID){
+        $rootScope.safeApply(function () {
+            $location.path('/login');
+        });
+    }
+
     $scope.mainheading = "Ask Questions";
     $scope.heading = "View all questions";
     $scope.addDiscussions = function (dcontent) {
