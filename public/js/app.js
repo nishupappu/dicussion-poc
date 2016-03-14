@@ -1,22 +1,20 @@
+function getCookieVal(cName) {
+    var cVal = null;
+    document.cookie.split(';').forEach(function (h) {
+        if(h.indexOf('=') > 0) {
+            var cookieName = h.split('=')[0];
+            var cookieVal = h.split('=')[1];
+            if (cookieName == cName) {
+                cVal = cookieVal;
+                return cookieVal;
+            }
+        }
+    });
+    return cVal;
+}
+
 var app = angular.module('discussionapp', ['ngRoute']);
 app.controller('nkController', function ($scope, nkService, $rootScope, $location) {
-    function getCookieVal(cName) {
-        var cVal = null;
-        if(document.cookie.indexOf(';') >= 0) {
-            document.cookie.split(';').forEach(function (h) {
-                if(h.indexOf('=') > 0) {
-                    var cookieName = h.split('=')[0];
-                    var cookieVal = h.split('=')[1];
-                    if (cookieName == cName) {
-                        cVal = cookieVal;
-                        return cookieVal;
-                    }
-                }
-            });
-        }
-        return cVal;
-    }
-
     var loggedInUserID = getCookieVal('user-Id');
 
     $rootScope.safeApply = function (fn) {
@@ -42,7 +40,15 @@ app.controller('nkController', function ($scope, nkService, $rootScope, $locatio
         var discobj = {
             Content: dcontent
         };
-        nkService.addDiscussion(discobj);
+        nkService.addDiscussion(discobj).then(function () {
+            nkService.getDiscussions().then(function (resp) {
+                $scope.Qns = resp.data.Body.list;
+                $scope.Qns.map(function (qn) {
+                    qn.answersCount = _.filter($scope.Qns, {"ParentId": qn.Id}).length;
+                    qn.likesCount = qn.Likes ? qn.Likes.length : 0;
+                });
+            });
+        })
     };
     $scope.deleteDiscussion = function (dqnitem) {
         _.remove($scope.Qns, {"Id": dqnitem.Id});
@@ -72,22 +78,7 @@ app.controller('qnDetailController', function ($scope, $routeParams, nkService) 
 
     var selectedqn = [];
 
-    function getCookieVal(cName) {
-        var cVal = null;
-        if(document.cookie.indexOf(';') >= 0) {
-            document.cookie.split(';').forEach(function (h) {
-                if(h.indexOf('=') > 0) {
-                    var cookieName = h.split('=')[0];
-                    var cookieVal = h.split('=')[1];
-                    if (cookieName == cName) {
-                        cVal = cookieVal;
-                        return cookieVal;
-                    }
-                }
-            });
-        }
-        return cVal;
-    }
+
 
     var loggedInUserID = getCookieVal('user-Id');
 
