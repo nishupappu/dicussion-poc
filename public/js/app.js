@@ -4,7 +4,7 @@ function getCookieVal(cName) {
         if(h.indexOf('=') > 0) {
             var cookieName = h.split('=')[0];
             var cookieVal = h.split('=')[1];
-            if (cookieName == cName) {
+            if (cookieName.replace(/ /g, '') == cName) {
                 cVal = cookieVal;
                 return cookieVal;
             }
