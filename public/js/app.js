@@ -28,6 +28,7 @@ app.controller('nkController', function ($scope, nkService, $rootScope, $locatio
         }
     };
 
+    console.log("logged in app ", loggedInUserID);
     if(!loggedInUserID){
         $rootScope.safeApply(function () {
             $location.path('/login');
@@ -146,8 +147,6 @@ app.controller('qnDetailController', function ($scope, $routeParams, nkService) 
             console.log("Please Login");
         }
     };
-
-
 });
 
 app.controller('loginController', function ($scope, nkService, $location, $rootScope) {
@@ -180,7 +179,7 @@ app.controller('loginController', function ($scope, nkService, $location, $rootS
             if (loggedInUser.length > 0) {
                 document.cookie = "user-Id=" + loggedInUser[0].Id;
                 $rootScope.safeApply(function () {
-                    $location.path('/');
+                    $location.path('/home');
                 });
             }
         });
@@ -195,7 +194,6 @@ app.controller('loginController', function ($scope, nkService, $location, $rootS
 
         });
     };
-
 });
 app.service('nkService', function ($http) {
     var makeRequest = function (url, method, data) {

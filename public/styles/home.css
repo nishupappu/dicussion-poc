@@ -1,5 +1,16 @@
-.all-discussions{
-	background-color: #CEF6F5;
+/*.all-discussions{
+	background-color: #E6E6E6;
+}*/
+.all-discussions ul{
+	margin-top: 10px;
+}
+.all-discussions ul li{
+	display: inline;
+	padding: 50px;
+}
+.all-discussions ul li a{
+	text-decoration: none;
+	color:#fff;
 }
 .all-discussions .module-discussion .question-summary .question-item .cp{
 	float:left;

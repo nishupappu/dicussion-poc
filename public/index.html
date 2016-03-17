@@ -1,11 +1,25 @@
 <html>
 <head>
     <title>Discussions POC</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="styles/normalize.css">
     <link rel="stylesheet" type="text/css" href="styles/home.css">
-</head>
-<body ng-app="discussionapp" class="all-discussions">
-    <div ng-view>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" 
+</head>
+<body ng-app="discussionapp" class="all-discussions bg-info">
+    <div class="navbar navbar-inverse">
+        <ul>
+              <li><a href="#/login">Login</a></li>
+              <li><a href="#/home">Home</a></li>
+        </ul>
+    </div>
+    <div class="container">
+        <div ng-view>
+
+        </div>
     </div>
     <script src="js/vendor/jquery.js"></script>
     <script src="js/vendor/lodash.js"></script>

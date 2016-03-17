@@ -1,20 +1,21 @@
-<div>
-    <div>
-        <input type="text" ng-model="comment"/>
-        <input type="button" name="add" value="add" ng-click="addAnswer(comment)"/>
-        <a href="#/">Home</a>
+<div class="row">
+    <div class="col-xs-12">
+        <textarea name="answers" rows="10" cols="80" ng-model="comment"></textarea>
+        <input type="button" name="add" value="add" ng-click="addAnswer(comment)" class="btn btn-primary"/>
+        <a href="#/home" class="btn btn-info">Home</a>
         
     </div>
     <div>
-        <div>
-            <a ng-if="IsLiked == false" href="" ng-click="likeThisQuestion(true)">Like</a>
-            <a ng-if="IsLiked == true" href="" ng-click="likeThisQuestion(false)">Un Like</a>
+        <div class="col-xs-12">
+            <a ng-if="IsLiked == false" href="" ng-click="likeThisQuestion(true)" class="glyphicon glyphicon-thumbs-up">Like</a>
+            <a ng-if="IsLiked == true" href="" ng-click="likeThisQuestion(false)" class="
+glyphicon glyphicon-thumbs-down">UnLike</a>
         </div>
-        <div>
+        <div class="col-xs-12">
             {{questionContent}}
         </div>
-        <div>
-            <div ng-repeat="ans in answers">{{ans.Content}}</div>
+        <div class="col-xs-12">
+            <div ng-repeat="ans in answers" class="text-primary">{{ans.Content}}</div>
         </div>
     </div>
 </div>

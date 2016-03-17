@@ -1,12 +1,32 @@
 <div class="module-discussion">
 <h1>{{mainheading}}</h1>
     <div class="add-discussions">
-        <textarea name="message" rows="10" cols="30" ng-model="Content"></textarea>
+        <textarea name="message" rows="10" cols="80" ng-model="Content"></textarea>
         <!-- <input type="text" ng-model="Content"/> -->
-        <input type="button" value="add question" ng-click="addDiscussions(Content);">
+        <input type="button" value="add question" ng-click="addDiscussions(Content);" class="btn btn-primary">
     </div>
     <h1>{{heading}}</h1>
-    <div class="question-summary">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Likes</th>
+                <th>Answers</th>
+                <th>Views</th>
+                <th>Questions</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="qnItem in Qns">
+                <td style="width:5%;">{{qnItem.likesCount?qnItem.likesCount:"0"}}</td>
+                <td style="width:5%;">{{qnItem.answersCount?qnItem.answersCount:"0"}}</td>
+                <td style="width:5%;">{{qnItem.Views?qnItem.Views:"0"}}</td>
+                <td><h3><a href="#/questions/{{qnItem.Id}}" class="question-hyperlink">{{qnItem.Content}}</a></h3></td>
+                <td style="width:10%;"><a href="" ng-click="deleteDiscussion(qnItem)" class="btn btn-danger">Delete</a></td>
+            </tr>
+        </tbody>
+    </table>
+   <!--  <div class="question-summary">
         <div class="question-item" ng-repeat="qnItem in Qns">
             <div class="cp" >
                 <div class="votes">
@@ -25,8 +45,8 @@
             <div class="summary">
                 <h3><a href="#/questions/{{qnItem.Id}}" class="question-hyperlink">{{qnItem.Content}}</a></h3>
             </div>
-            <a href="" ng-click="deleteDiscussion(qnItem)">Delete</a>
+            <a href="" ng-click="deleteDiscussion(qnItem)" class="btn btn-danger">Delete</a>
             
         </div>
-    </div>
+    </div> -->
 </div>
