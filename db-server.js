@@ -31,4 +31,9 @@ dbServer.ModelHash["users"]=function(obj){
     this.Password = obj["Password"];
 };
 
-dbServer.init();
+module.exports = {
+    init: function (dbPort) {
+        dbServer.dBPort = dbPort || 5654;
+        dbServer.init();
+    }
+};

@@ -37,20 +37,7 @@ app.controller('nkController', function ($scope, nkService, $rootScope, $locatio
 
     $scope.mainheading = "Ask Questions";
     $scope.heading = "View all questions";
-    $scope.addDiscussions = function (dcontent) {
-        var discobj = {
-            Content: dcontent
-        };
-        nkService.addDiscussion(discobj).then(function () {
-            nkService.getDiscussions().then(function (resp) {
-                $scope.Qns = resp.data.Body.list;
-                $scope.Qns.map(function (qn) {
-                    qn.answersCount = _.filter($scope.Qns, {"ParentId": qn.Id}).length;
-                    qn.likesCount = qn.Likes ? qn.Likes.length : 0;
-                });
-            });
-        })
-    };
+
     $scope.deleteDiscussion = function (dqnitem) {
         _.remove($scope.Qns, {"Id": dqnitem.Id});
         var removeobj = {
@@ -61,9 +48,11 @@ app.controller('nkController', function ($scope, nkService, $rootScope, $locatio
     };
     var x = nkService.getDiscussions();
     var success = function (resp) {
-        $scope.Qns = resp.data.Body.list;
+        $scope.Qns = resp.data.Body.list.filter(function (filterItem) {
+            return filterItem.ParentId ? false : true;
+        });
         $scope.Qns.map(function (qn) {
-            qn.answersCount = _.filter($scope.Qns, {"ParentId": qn.Id}).length;
+            qn.answersCount = _.filter(resp.data.Body.list, {"ParentId": qn.Id}).length;
             qn.likesCount = qn.Likes ? qn.Likes.length : 0;
         });
 
@@ -72,6 +61,15 @@ app.controller('nkController', function ($scope, nkService, $rootScope, $locatio
     var error = function () {
     };
     x.then(success, error);
+
+    $scope.addDiscussions = function (dcontent) {
+        var discobj = {
+            Content: dcontent
+        };
+        nkService.addDiscussion(discobj).then(function () {
+            nkService.getDiscussions().then(success);
+        })
+    };
 });
 
 app.controller('qnDetailController', function ($scope, $routeParams, nkService) {
