@@ -179,6 +179,9 @@ app.controller('loginController', function ($scope, nkService, $location, $rootS
                 $rootScope.safeApply(function () {
                     $location.path('/home');
                 });
+
+                //Emit 'user-changed' event on rootScope to notify header
+                $rootScope.$emit('user-changed',true);
             }
         });
     };
@@ -220,4 +223,94 @@ app.service('nkService', function ($http) {
     this.getUsers = function (userobj) {
         return makeRequest('http://localhost:5654/table/users', 'GET', {});
     };
+});
+
+app.directive('globalHeader', function ($location, $rootScope, nkService) {
+    return {
+        restrict: 'E',
+        templateUrl:'header.html',
+        controller: function ($scope) {
+
+            //safe Apply avoids digest errors while trying to do changes to scope in the  middle of binding
+            //this is rootScope level binding
+            $rootScope.safeApply = function (fn) {
+                var phase = this.$root.$$phase;
+                if (phase == '$apply' || phase == '$digest') {
+                    if (fn && (typeof(fn) === 'function')) {
+                        fn();
+                    }
+                } else {
+                    this.$apply(fn);
+                }
+            };
+
+            //safe Apply avoids digest errors while trying to do changes to scope in the  middle of binding
+            //this is directive level binding i.e., current directive scope
+            $scope.safeApply = function (fn) {
+                var phase = this.$root.$$phase;
+                if (phase == '$apply' || phase == '$digest') {
+                    if (fn && (typeof(fn) === 'function')) {
+                        fn();
+                    }
+                } else {
+                    this.$apply(fn);
+                }
+            };
+
+            var checkUser = function (loggedInId) {
+                return nkService.getUsers().then(function (resp) {
+                    var users = resp.data.Body.list;
+                    var loggedInUsers = users.filter(function (filterItem) {
+                        return filterItem.Id == loggedInId;
+                    });
+                    if(loggedInUsers.length > 0){
+                        return true
+                    }else{
+                       return false;
+                    }
+                });
+            };
+
+            //method used to check cookie and set 'Isauthenticated' flag to show/hide 'logout'
+            var checkAuthentication = function () {
+                var loggedInUserID = getCookieVal('user-Id');
+                if(loggedInUserID){
+                    checkUser(loggedInUserID).then(function (isAuthenticated) {
+                        if(isAuthenticated){
+                            $scope.safeApply(function () {
+                                $scope.Isauthenticated = true;
+                            });
+
+                        }else{
+                            $scope.Isauthenticated = false;
+                            $rootScope.safeApply(function () {
+                                $location.path('/login');
+                            });
+                        }
+                    });
+                }else{
+                    $scope.Isauthenticated = false;
+                    $rootScope.safeApply(function () {
+                        $location.path('/login');
+                    });
+                }
+            };
+
+
+            $scope.logout = function () {
+                //we are setting some dummy cookie as of now, but cookie should removed from server response
+                //by binding expires date in cookie
+                document.cookie = "user-Id=USERID";
+                checkAuthentication();
+            };
+
+            //runs on page load
+            checkAuthentication();
+
+            //listen to 'user-changed' event on rootScope to show/hide logout on basis of user logged in
+            $rootScope.$on('user-changed', function (evt, IsAuthenticated) {
+                $scope.Isauthenticated = IsAuthenticated;
+            })
+        }
+    }
 });
